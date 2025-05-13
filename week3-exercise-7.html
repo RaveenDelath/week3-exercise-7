@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Basket Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 300px;
+            height: 100px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Shopping Basket Calculator</h2>
+    
+    <div>
+        <label for="basketInput">Basket:</label><br>
+        <textarea id="basketInput">apple:5
+banana:3
+orange:2</textarea>
+    </div>
+    <br>
+    <div>
+        <label for="pricesInput">Prices:</label><br>
+        <textarea id="pricesInput">apple:0.50
+banana:0.30
+orange:0.75</textarea>
+    </div>
+    <br>
+    <button onclick="calculateTotal()">Calculate Total</button>
+    
+    <div class="result" id="result">
+        Result will be shown here
+    </div>
+
+    <script>
+        // Function f7 that calculates the total cost of a basket
+        function f7(basket, prices) {
+            let total_cost = 0;
+            
+            for(let product in basket){
+                if(prices.hasOwnProperty(product)){  // Fixed: hasOwnProperty (not hasOwnedProperty)
+                    let quantity = basket[product];
+                    let price = prices[product];
+                    let productCost = quantity * price;
+                    
+                    total_cost += productCost;
+                }
+            }
+            return total_cost;  // Moved outside the loop so it returns after processing all products
+        }
+
+        // Function to handle the button click
+        function calculateTotal() {
+            // Parse basket input
+            const basketText = document.getElementById('basketInput').value;
+            const basketLines = basketText.split('\n');
+            const basket = {};
+            
+            for (let line of basketLines) {
+                if (line.trim() === '') continue;
+                
+                const parts = line.split(':');
+                if (parts.length === 2) {
+                    const product = parts[0].trim();
+                    const quantity = parseInt(parts[1].trim());
+                    basket[product] = quantity;
+                }
+            }
+            
+            // Parse prices input
+            const pricesText = document.getElementById('pricesInput').value;
+            const pricesLines = pricesText.split('\n');
+            const prices = {};
+            
+            for (let line of pricesLines) {
+                if (line.trim() === '') continue;
+                
+                const parts = line.split(':');
+                if (parts.length === 2) {
+                    const product = parts[0].trim();
+                    const price = parseFloat(parts[1].trim());
+                    prices[product] = price;
+                }
+            }
+            
+            // Calculate and display the total
+            const total = f7(basket, prices);
+            document.getElementById('result').textContent = 'Total cost: $' + total.toFixed(2);
+        }
+    </script>
+</body>
+</html>
