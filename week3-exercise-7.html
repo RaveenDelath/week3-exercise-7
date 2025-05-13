@@ -46,7 +46,7 @@ orange:0.75</textarea>
             let total_cost = 0;
             
             for(let product in basket){
-                if(prices.hasOwnProperty(product)){  // Fixed: hasOwnProperty (not hasOwnedProperty)
+                if(prices.hasOwnProperty(product)){  
                     let quantity = basket[product];
                     let price = prices[product];
                     let productCost = quantity * price;
